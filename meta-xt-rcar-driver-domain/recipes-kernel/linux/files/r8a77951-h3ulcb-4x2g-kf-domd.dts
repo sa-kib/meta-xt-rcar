@@ -1,13 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
  * Device Tree Source for the H3ULCB Kingfisher board
  * running XEN hypervisor
  *
  * Copyright (C) 2016-2018 Renesas Electronics Corp.
  * Copyright (C) 2016 Cogent Embedded, Inc.
- *
- * This file is licensed under the terms of the GNU General Public License
- * version 2.  This program is licensed "as is" without any warranty of any
- * kind, whether express or implied.
  */
 
 #include "r8a77951-ulcb-kf.dts"
@@ -19,12 +16,65 @@
 #define PHANDLE_GIC (65000)
 
 / {
+        reserved-memory {
+                #address-cells = <0x2>;
+                #size-cells = <0x2>;
+                ranges;
+                cr7_cma: linux,cma@58000000 {
+                        compatible = "shared-dma-pool";
+                        reg = <0x0 0x58000000 0x0 0x2000000>;
+                        no-map;
+                        /delete-property/ reusable;
+                        /delete-property/ linux,cma-default;
+                };
+                /delete-node/ linux,lossy_decompress@54000000;
+                /delete-node/ linux,adsp@57000000;
+                /delete-node/ linux,multimedia@70000000;
+                /delete-node/ linux,cma@57000000;
+        };
+        /delete-node/ mmngr;
+        rvgc {
+                dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
+                rvgc-memory {
+                        memory-region = <&cr7_cma>;
+                };
+                displays {
+                        display-0 {
+                                display-map = <1>;
+                                layers {
+                                        primary{
+                                                /* Position the layer in the centre of a 1920x720 display */
+                                                layer-map=<0x3>;
+                                                size-w=<800>;
+                                                size-h=<600>;
+                                                pos-x=<560>;    // (1920 - 800)/2
+                                                pos-y=<60>;     // (720 - 600)/2
+                                                pos-override;
+                                        };
+                                };
+                        };
+                };
+        };
+
 	soc {
 		/* This must point to Xen interrupt-parent */
 		interrupt-parent = <PHANDLE_GIC>;
 	};
 
 	passthrough {
+                #address-cells = <0x2>;
+                #size-cells = <0x2>;
+                interrupt-parent = <PHANDLE_GIC>;
+                compatible = "simple-bus";
+
+                xen_rproc {
+                        interrupt-parent = <PHANDLE_GIC>;
+                        dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
+                        memory-region = <&cr7_cma>;
+                        compatible = "xen-rproc";
+                        interrupts = <0x00 233 0x04>;
+                        interrupt-names = "xen-rproc";
+                };
 	};
 
 	/*
@@ -52,6 +102,22 @@
 };
 
 /delete-node/&adsp;
+
+&sdhi0 {
+	/delete-property/iommus;
+};
+
+&sdhi1 {
+	/delete-property/iommus;
+};
+
+&sdhi2 {
+	/delete-property/iommus;
+};
+
+&sdhi3 {
+	/delete-property/iommus;
+};
 
 /* Xen will provide its own GIC, mask ours */
 &gic {
