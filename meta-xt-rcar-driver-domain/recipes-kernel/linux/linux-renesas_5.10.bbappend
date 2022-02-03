@@ -10,8 +10,11 @@ BRANCH = "v5.10_cr7_aosbox"
 SRCREV = "${AUTOREV}"
 LINUX_VERSION = "5.10.0"
 
+KERNEL_FEATURES_remove = "cfg/virtio.scc"
+
 SRC_URI_append = " \
     file://defconfig \
+    file://xt_pass_drv.cfg \
     file://xen-chosen.dtsi;subdir=git/arch/${ARCH}/boot/dts/renesas \
     file://ulcb-ab.dtsi;subdir=git/arch/${ARCH}/boot/dts/renesas \
 "
