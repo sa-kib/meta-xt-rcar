@@ -98,9 +98,17 @@
 	 */
 	/delete-node/thermal-zones;
 	/delete-node/pmu_a57;
-	/delete-node/pmu_a53;
-};
+	/delete-node/pmu_a53; 
 
+        /* CR7 is responislbe for graphics */
+        /delete-node/ cvbs-in;
+        /delete-node/ hdmi-in;
+        /delete-node/ hdmi1-out;
+        /delete-node/ lvds-decoder;
+
+        /delete-node/ vga;
+        /delete-node/ vga-encoder;
+};
 /delete-node/&adsp;
 
 &sdhi0 {
