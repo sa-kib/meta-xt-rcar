@@ -16,6 +16,10 @@
 #define PHANDLE_GIC (65000)
 
 / {
+	aliases {
+		/delete-property/ i2c4;
+	};
+
         reserved-memory {
                 #address-cells = <0x2>;
                 #size-cells = <0x2>;
@@ -40,7 +44,7 @@
                 };
                 displays {
                         display-0 {
-                                display-map = <1>;
+                                display-map = <0>;
                                 layers {
                                         primary{
                                                 /* Position the layer in the centre of a 1920x720 display */
@@ -70,6 +74,7 @@
                 xen_rproc {
                         interrupt-parent = <PHANDLE_GIC>;
                         dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
+			dma-coherent;
                         memory-region = <&cr7_cma>;
                         compatible = "xen-rproc";
                         interrupts = <0x00 233 0x04>;
@@ -98,17 +103,9 @@
 	 */
 	/delete-node/thermal-zones;
 	/delete-node/pmu_a57;
-	/delete-node/pmu_a53; 
-
-        /* CR7 is responislbe for graphics */
-        /delete-node/ cvbs-in;
-        /delete-node/ hdmi-in;
-        /delete-node/ hdmi1-out;
-        /delete-node/ lvds-decoder;
-
-        /delete-node/ vga;
-        /delete-node/ vga-encoder;
+	/delete-node/pmu_a53;
 };
+
 /delete-node/&adsp;
 
 &sdhi0 {
@@ -140,4 +137,91 @@
 	status = "disabled";
 };
 
+/* CR7 is responislbe for graphics */
+&csi20 {
+	/delete-property/ status;
+	ports {
+		/delete-node/ port@0;
+	};
+};
 
+&csi40 {
+	/delete-property/ status;
+	ports {
+		/delete-node/ port@0;
+	};
+};
+
+/delete-node/ &i2c4;
+/delete-node/ &fcpvd0;
+/delete-node/ &fcpvd1;
+/delete-node/ &fcpvd2;
+/delete-node/ &vspd0;
+/delete-node/ &vspd1;
+/delete-node/ &vspd2;
+/delete-node/ &du;
+/delete-node/ &hdmi0;
+/delete-node/ &hdmi0_con;
+/delete-node/ &adv7513_in;
+/delete-node/ &hdmi1;
+/delete-node/ &lvds0;
+/delete-node/ &lvds;
+/delete-node/ &pciec0;
+/delete-node/ &pciec1;
+/delete-node/ &mpcie_3v3;
+/delete-node/ &mpcie_1v8;
+/delete-node/ &vdd_cam_a_0;
+/delete-node/ &vdd_cam_a_1;
+/delete-node/ &vdd_cam_a_2;
+/delete-node/ &vdd_cam_a_3;
+
+&sound_card {
+	/delete-property/ dais;
+};
+
+&audma0 {
+	compatible = "xen-troops,passthrough";
+};
+
+&audma1 {
+	compatible = "xen-troops,passthrough";
+};
+
+&rcar_sound {
+	compatible = "xen-troops,passthrough";
+	clocks = <&cpg CPG_MOD 1005>,
+		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
+		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
+		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
+		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
+		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
+		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
+		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
+		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
+		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
+		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
+		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+		 /*
+		  * FIXME: cs2000 is controlled via I2C-2 and only uses
+		  * fixed clocks, so can skip it here and enable via I2C-2
+		  * in DomU/A.
+		  */
+		/*
+		 <&audio_clk_a>, <&cs2000>,
+		 <&audio_clk_c>,
+		 */
+		 <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
+
+	ports {
+		/* HDMI snd in is not availble anymore */
+		/delete-node/ port@1;
+	};
+};
+
+&vin5 {
+	ports {
+		/delete-node/ port@0;
+	};
+};

@@ -270,9 +270,9 @@
 	iommus = <&ipmmu_hc 12>;
 };
 
-&fcpvd0 {
-	iommus = <&ipmmu_vi0 8>;
-};
+//&fcpvd0 {
+//	iommus = <&ipmmu_vi0 8>;
+//};
 
 &fcpvd1 {
 	iommus = <&ipmmu_vi0 9>;
@@ -465,7 +465,7 @@
 &arm_cc630p		{ xen,passthrough; };
 &csi20			{ xen,passthrough; };
 &csi40			{ xen,passthrough; };
-&du				{ xen,passthrough; };
+//&du				{ xen,passthrough; };
 &usb_dmac2		{ xen,passthrough; };
 &usb_dmac3		{ xen,passthrough; };
 &usb_dmac0		{ xen,passthrough; };
@@ -476,7 +476,7 @@
 &audma0			{ xen,passthrough; };
 &audma1			{ xen,passthrough; };
 &avb			{ xen,passthrough; };
-&fcpvd0			{ xen,passthrough; };
+//&fcpvd0			{ xen,passthrough; };
 &fcpvd1			{ xen,passthrough; };
 &fcpvd2			{ xen,passthrough; };
 &fdp0			{ xen,passthrough; };
@@ -492,7 +492,7 @@
 &gsx			{ xen,passthrough; };
 &hdmi0			{ xen,passthrough; };
 &i2c2			{ xen,passthrough; };
-&i2c4			{ xen,passthrough; };
+//&i2c4			{ xen,passthrough; };
 &i2c_dvfs		{ xen,passthrough; };
 &intc_ex		{ xen,passthrough; };
 &mfis_as		{ xen,passthrough; };
@@ -543,7 +543,7 @@
 &vin3			{ xen,passthrough; };
 &vin4			{ xen,passthrough; };
 &vin5			{ xen,passthrough; };
-&vspd0			{ xen,passthrough; };
+//&vspd0			{ xen,passthrough; };
 &vspd1			{ xen,passthrough; };
 &vspd2			{ xen,passthrough; };
 &vspbc			{ xen,passthrough; };
