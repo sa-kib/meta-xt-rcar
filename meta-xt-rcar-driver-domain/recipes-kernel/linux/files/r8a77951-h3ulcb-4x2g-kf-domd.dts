@@ -104,6 +104,17 @@
 	/delete-node/thermal-zones;
 	/delete-node/pmu_a57;
 	/delete-node/pmu_a53;
+
+	/* CR7 is responislbe for graphics */
+	/delete-node/ cvbs-in;
+	/delete-node/ hdmi-in;
+	/delete-node/ hdmi0-out;
+	/delete-node/ lvds-decoder;
+
+	/delete-node/ lvds;
+	/delete-node/ vga;
+	/delete-node/ vga-encoder;
+
 };
 
 /delete-node/&adsp;
@@ -161,11 +172,9 @@
 /delete-node/ &vspd2;
 /delete-node/ &du;
 /delete-node/ &hdmi0;
-/delete-node/ &hdmi0_con;
 /delete-node/ &adv7513_in;
 /delete-node/ &hdmi1;
 /delete-node/ &lvds0;
-/delete-node/ &lvds;
 /delete-node/ &pciec0;
 /delete-node/ &pciec1;
 /delete-node/ &mpcie_3v3;
@@ -175,8 +184,68 @@
 /delete-node/ &vdd_cam_a_2;
 /delete-node/ &vdd_cam_a_3;
 
+/* These USB controllers are used by DomA/U. */
+
+&usb2_phy1 {
+	compatible = "xen-troops,passthrough";
+};
+
+&ohci1 {
+	compatible = "xen-troops,passthrough";
+};
+
+&ehci1 {
+	compatible = "xen-troops,passthrough";
+};
+
+/* These MM devices are used by DomA/U. */
+
+&fcpcs {
+	compatible = "xen-troops,passthrough";
+};
+
+&ivdp1c {
+	compatible = "xen-troops,passthrough";
+};
+
+&vcplf {
+	compatible = "xen-troops,passthrough";
+};
+
+&vdpb {
+	compatible = "xen-troops,passthrough";
+};
+
+&vspbc {
+	compatible = "xen-troops,passthrough";
+};
+
+&vspbd {
+	compatible = "xen-troops,passthrough";
+};
+
+&vspi0 {
+	compatible = "xen-troops,passthrough";
+};
+
 &sound_card {
 	/delete-property/ dais;
+};
+
+&vspi1 {
+	compatible = "xen-troops,passthrough";
+};
+
+&fdp0 {
+	compatible = "xen-troops,passthrough";
+};
+
+&fdp1 {
+	compatible = "xen-troops,passthrough";
+};
+
+&i2c2 {
+	compatible = "xen-troops,passthrough";
 };
 
 &audma0 {

@@ -27,11 +27,13 @@
                 /* Carveout for DomD 1:1 mappnig to be used by CR7 */
                 linux,cma@58000000 {
                         compatible = "shared-dma-pool";
+                        no-map;
                         reg = <0x0 0x58000000 0x0 0x2000000>;
                 };
                 /* Carveout for DomA 1:1 mappnig to be used by CR7 */
                 linux,cma@4E000000 {
                         compatible = "shared-dma-pool";
+                        no-map;
                         reg = <0x0 0x4E000000 0x0 0x2000000>;
                 };
         };
@@ -270,9 +272,13 @@
 	iommus = <&ipmmu_hc 12>;
 };
 
-//&fcpvd0 {
-//	iommus = <&ipmmu_vi0 8>;
-//};
+&usb3_peri0 {
+    iommus = <&ipmmu_hc 13>;
+};
+
+&fcpvd0 {
+	iommus = <&ipmmu_vi0 8>;
+};
 
 &fcpvd1 {
 	iommus = <&ipmmu_vi0 9>;
@@ -476,7 +482,7 @@
 &audma0			{ xen,passthrough; };
 &audma1			{ xen,passthrough; };
 &avb			{ xen,passthrough; };
-//&fcpvd0			{ xen,passthrough; };
+&fcpvd0			{ xen,passthrough; };
 &fcpvd1			{ xen,passthrough; };
 &fcpvd2			{ xen,passthrough; };
 &fdp0			{ xen,passthrough; };
@@ -530,6 +536,7 @@
 &usb2_phy0		{ xen,passthrough; };
 &hsusb			{ xen,passthrough; };
 &xhci0			{ xen,passthrough; };
+&usb3_peri0		{ xen,passthrough; };
 &ohci0			{ xen,passthrough; };
 &ehci0			{ xen,passthrough; };
 &ohci1			{ xen,passthrough; };
